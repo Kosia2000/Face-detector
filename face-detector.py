@@ -16,9 +16,19 @@ img = cv2.resize(img, (new_w, new_h))
 
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+human_face = human_cascade.detectMultiScale(
+    img_gray,
+    scaleFactor=1.1,
+    minNeighbors=5,
+    minSize=(30, 30),
+)
 
-human_face = human_cascade.detectMultiScale(img_gray, 1.1, 6)
-cat_face = cat_cascade.detectMultiScale(img_gray, 1.1, 5)
+cat_face = cat_cascade.detectMultiScale(
+    img_gray,
+    scaleFactor=1.1,
+    minNeighbors=5,
+    minSize=(30, 30),
+)
 
 for (i, (x, y, w, h)) in enumerate(human_face):
     cv2.rectangle(img, (x, y), (x+w, y+h), (191, 62, 255), 2)
@@ -40,7 +50,9 @@ print("Press esc to quit")
 
 
 if key == 115 or key == 83:
+    name = input("Enter new file name (with extension): ")
     cv2.imwrite('Detected-face/{}'.format(name), img)
     print("Image saved successfuly")
 elif key == 27:
+    print("Good bye!")
     cv2.destroyAllWindows()
